@@ -2,14 +2,26 @@ var Http = require('http');
 
 var count = 0;
 function requestHandle(req, res) {
-	var message;
+	var message, status = 200;
 	count += 1;
-	res.writeHead(201, {
-		'Content-Type': 'text/plain'
-	});
+	
+	switch(req.url) {
+		case '/count':
+			message = count.toString();
+			break;
+		case '/hello':
+			message = 'World';
+			break;
+		default:
+			status = 404;
+			message = 'Not Found';
+			break;
+	}
 
-	message = 'Visitor count: ' + count + ', path: ' + req.url;
-	console.log(message);
+	res.writeHead(201, {
+		'Content-Type': 'text/plan'
+	});
+	console.log(req.url, status, message);
 	res.end(message);
 }
 
